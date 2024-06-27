@@ -1,6 +1,6 @@
 import { Router } from "express";
 import connectionPool from "../utils/db.mjs";
-import { validateQuestionId } from "../middlewares/validation.mjs";
+import { validateQuestionId } from "../middlewares/id-validation.mjs";
 
 const questionVoteRouter = Router({ mergeParams: true });
 questionVoteRouter.use(validateQuestionId);

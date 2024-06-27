@@ -1,15 +1,13 @@
 import { Router } from "express";
 import connectionPool from "../utils/db.mjs";
-import { validateQuestionId } from "../middlewares/validation.mjs";
+import { validateQuestionId } from "../middlewares/id-validation.mjs";
+import { validatePostAnswer } from "../middlewares/post-ans-validation.mjs";
 
 const answerRouter = Router({ mergeParams: true });
 answerRouter.use(validateQuestionId);
 
 answerRouter
-  .post("/", async (req, res) => {
-    if (!req.body.content) {
-      return res.status(400).send("Missing or invalid request data.");
-    }
+  .post("/", [validatePostAnswer], async (req, res) => {
     try {
       const result = await connectionPool.query(
         `INSERT INTO answers (question_id, content) VALUES ($1, $2) RETURNING *`,
