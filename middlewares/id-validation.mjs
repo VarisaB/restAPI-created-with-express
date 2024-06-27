@@ -23,7 +23,7 @@ export async function validateAnswerId(req, res, next) {
       `SELECT * FROM answers WHERE id = $1`,
       [req.params.id]
     );
-    console.log(req.params.id);
+
     if (!result.rowCount) {
       return res.status(404).send("Answer not found.");
     }
