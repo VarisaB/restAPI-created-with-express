@@ -12,7 +12,23 @@ answerVoteRouter
         `INSERT INTO answer_votes (answer_id, vote) VALUES ($1, 1) RETURNING *`,
         [req.params.id]
       );
-      return res.status(200).json();
+      const answerInfo = await connectionPool.query(
+        `SELECT * FROM answers WHERE id = $1`,
+        [req.params.id]
+      );
+      const upvotes = await connectionPool.query(
+        `SELECT count(*) FROM answer_votes WHERE vote = 1 AND answer_id = $1`,
+        [req.params.id]
+      );
+      const downvotes = await connectionPool.query(
+        `SELECT count(*) FROM answer_votes WHERE vote = -1 AND answer_id = $1`,
+        [req.params.id]
+      );
+      return res.status(200).json({
+        ...answerInfo.rows[0],
+        upvotes: Number(upvotes.rows[0].count),
+        downvotes: Number(downvotes.rows[0].count),
+      });
     } catch (error) {
       return res.status(500);
     }
@@ -23,7 +39,23 @@ answerVoteRouter
         `INSERT INTO answer_votes (answer_id, vote) VALUES ($1, -1) RETURNING *`,
         [req.params.id]
       );
-      return res.status(200).json(result.rows[0]);
+      const answerInfo = await connectionPool.query(
+        `SELECT * FROM answers WHERE id = $1`,
+        [req.params.id]
+      );
+      const upvotes = await connectionPool.query(
+        `SELECT count(*) FROM answer_votes WHERE vote = 1 AND answer_id = $1`,
+        [req.params.id]
+      );
+      const downvotes = await connectionPool.query(
+        `SELECT count(*) FROM answer_votes WHERE vote = -1 AND answer_id = $1`,
+        [req.params.id]
+      );
+      return res.status(200).json({
+        ...answerInfo.rows[0],
+        upvotes: Number(upvotes.rows[0].count),
+        downvotes: Number(downvotes.rows[0].count),
+      });
     } catch (error) {
       return res.status(500);
     }
