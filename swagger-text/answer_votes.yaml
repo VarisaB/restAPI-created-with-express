@@ -1,0 +1,37 @@
+paths:
+  /answers/{id}/upvote:
+    post:
+      description: "Upvote an answer."
+      tags:
+        - Answers
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: integer
+          description: "Answer ID."
+      responses:
+        "200":
+          description: "Successful response."
+        "404":
+          description: Answer not found.
+        "500":
+          description: "Internal server error."
+  /answers/{id}/downvote:
+    post:
+      description: "Downvote an answer."
+      tags:
+        - Answers
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: integer
+          description: "Answer ID."
+      responses:
+        "200":
+          description: "Successful response."
+        "404":
+          description: Answer not found.
+        "500":
+          description: "Internal server error."

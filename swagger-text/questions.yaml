@@ -1,0 +1,162 @@
+paths:
+  /questions:
+    get:
+      description: Get questions
+      tags:
+        - Questions
+      parameters:
+        - in: query
+          name: title
+          schema:
+            type: string
+        - in: query
+          name: category
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    title:
+                      type: string
+                    description:
+                      type: string
+                    category:
+                      type: string
+        "400":
+          description: Invalid query parameters
+        "500":
+          description: Internal server error
+    post:
+      description: Create a new question
+      tags:
+        - Questions
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - title
+                - description
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+                category:
+                  type: string
+      responses:
+        "201":
+          description: Created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  title:
+                    type: string
+                  description:
+                    type: string
+                  category:
+                    type: string
+        "400":
+          description: Missing or invalid request data
+        "500":
+          description: Internal Server Error
+
+  /questions/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        type: string
+        description: "ID of the question"
+    get:
+      description: Get a specific question
+      tags:
+        - Questions
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  title:
+                    type: string
+                  description:
+                    type: string
+                  category:
+                    type: string
+        "404":
+          description: Question not found.
+        "500":
+          description: Internal server error
+    put:
+      description: Update a specific question
+      tags:
+        - Questions
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - title
+                - description
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+                category:
+                  type: string
+      responses:
+        "200":
+          description: Successful update
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  title:
+                    type: string
+                  description:
+                    type: string
+                  category:
+                    type: string
+        "400":
+          description: Missing or invalid request data
+        "404":
+          description: Question not found.
+        "500":
+          description: Internal server error
+    delete:
+      description: Delete a specific question
+      tags:
+        - Questions
+      responses:
+        "200":
+          description: Question and its answers deleted successfully.
+        "404":
+          description: Question not found.
+        "500":
+          description: Internal server error

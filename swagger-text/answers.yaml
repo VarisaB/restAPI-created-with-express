@@ -1,0 +1,63 @@
+paths:
+  /questions/{id}/answers:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        type: string
+        description: "ID of the question to which the answer belongs"
+    get:
+      description: "Get answers for a specific question"
+      tags:
+        - Answers
+      responses:
+        "200":
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    question_id:
+                      type: string
+                    content:
+                      type: string
+        "404":
+          description: Question not found.
+        "500":
+          description: "Internal Server Error"
+    post:
+      description: "Create a new answer"
+      tags:
+        - Answers
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                content:
+                  type: string
+      responses:
+        "201":
+          description: "Created successfully"
+          schema:
+            type: object
+            properties:
+              id:
+                type: integer
+              question_id:
+                type: string
+              content:
+                type: string
+        "400":
+          description: Missing or Invalid request data.
+        "404":
+          description: Question not found.
+        "500":
+          description: "Internal Server Error"

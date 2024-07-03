@@ -24,7 +24,7 @@ answerRouter
         `SELECT * FROM answers WHERE question_id = $1`,
         [req.params.id]
       );
-      return res.status(201).json(result.rows);
+      return res.status(200).json(result.rows);
     } catch (error) {
       return res.status(500);
     }
